@@ -46,6 +46,10 @@
 
 
 
+Deployment-
+    We have deployed using render-instead of Postgres
+    2.Uploaded to git and created a web instance on render
+    3.Created a postgress instance on render
 
 
 How to create and enable env:
