@@ -1,0 +1,81 @@
+1. Environment setup.
+2. Installing packages.
+3. Learnt Get Method.
+4. Learnt Post Method.
+5. Idenyified several issues:
+    1. Difficult to extract content from body.
+    2. Ensuring User cannot send random data.
+    3. Ensuring data validation.
+    4. we have to ensure clients to send data in a schema we expect.
+    we use pydantic to define schema, it is independent library we can use along with fastAPI.
+6. We use pydantic model to define data schema.
+7. We install Postgres default driver and using SQL commands perform Crud operation
+8. We Explore Database creation, connection and manipulation using ORMs i.e. SQLAlchemy 4
+    we create a database.py file in which we pass credentials to establish connection with Postgres
+    We create a model.py file in which we define Tables/Db models and reference this model to query in request.
+
+9. Created routes files for distinguished classification of request and we create a prefix just like defining variable to routes.
+10. we set up Oaut2 and we encrypt password using FastAPI library passlib[bcrypt]
+11. Learnt about JWT Tokens
+    1. Defined login and Token Flow
+    2. Created AUTH.py for all auth related stuff
+    3. Ensured ID Based post only feature
+12. Created user functionality for voting mechanim
+13. Started with alembic Data migration tool.
+    1. In env. file ensure access to Model.
+    2. Setup link to Db
+    3. Create revision and edit file in alembic folder.
+
+    How to add tables:
+    https://alembic.sqlalchemy.org/en/latest/tutorial.html#create-a-migration-script
+    How to commit those changes:
+    https://alembic.sqlalchemy.org/en/latest/tutorial.html#running-our-first-migration
+
+    commands- 
+            alembic revision -m  "Can put message here" [Tracks all the changes]
+            alembic upgrade - <revision no> - commits those changes into Db
+            alembic downgrade -1 - <revision no>
+            alembic head - Points to latest revision
+            alembic current - Points to current created revision
+            alembic revision --autogenerate -m"Add all schema's automatically"
+
+
+
+
+
+
+
+
+
+
+How to create and enable env:
+    -py -3 -m venv venv[Name of virtual env] ->Select interpreter[Select path which directs to python.exe in current directory] -> Activate[ .\venv\Scripts\activate]
+
+How to start live server:
+    uvicorn app.main:app --reload
+
+Install fastAPI:
+    https://fastapi.tiangolo.com/tutorial/
+    pip install "fastapi[all]"
+
+Passing and retrieving data:
+    ----------------------------------------------------------------------------------------------------------------------------------------
+    This method straight up passes data from body recived in body
+
+    # def create_posts(payLoad: dict=Body(...)): #Converts body into dictionary using FastAPI body class
+    # print(payLoad)
+    # return {"new_post":f"title {payLoad['Title']},content {payLoad['content']}
+    ----------------------------------------------------------------------------------------------------------------------------------------
+    We have defined Post in schema using pydantic model:
+
+    def create_posts(post:Post):
+    print(post.model_dump())    # post.dict() dict is decapricated model_dump is new dic
+    print(post.content)
+    return f"{post.rating}"     
+    ----------------------------------------------------------------------------------------------------------------------------------------
+
+Handling Exceptions
+     if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Post with id:{id} was not found")
+
+Handling Data Types
